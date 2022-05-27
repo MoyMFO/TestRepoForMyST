@@ -9,4 +9,19 @@
 # -- --------------------------------------------------------------------------------------------------- -- #
 """
 
-dict_test = {'key_a': 'a', 'key_b': 'b'}
+import pandas as pd
+import numpy as np
+import json
+
+# Opening JSON file
+f = open()
+
+#Returns JSON object as a dictionary
+orderbooks_data = json.load(f)
+
+orderbooks_data.keys()
+
+bitfinex_ts = list(orderbooks_data['bitfinex'].keys())
+kraken_ts = list(orderbooks_data['kraken'].keys())
+
+ob_data = orderbooks_data['bitfinex']
