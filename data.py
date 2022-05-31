@@ -13,15 +13,26 @@ import pandas as pd
 import numpy as np
 import json
 
-# Opening JSON file
-f = open()
+# load file
+f = open("orderbooks_05jul21.json")
 
-#Returns JSON object as a dictionary
+# Convert JSON into Dictionary
 orderbooks_data = json.load(f)
+ob_data = orderbooks_data["bitfinex"]
 
-orderbooks_data.keys()
+#Drop None Keys
+ob_data = {i_key: i_value for i_key, i_value in ob_data.items() if i_value is not None}
 
-bitfinex_ts = list(orderbooks_data['bitfinex'].keys())
-kraken_ts = list(orderbooks_data['kraken'].keys())
+#Convert to DataFrame and rearange columns
+ob_data = {i_ob: pd.DataFrame(ob_data[i_ob])[['bid_size','bid','ask','ask_size']]
+          if  ob_data[i_ob] is not None else None for i_ob in list(ob_data.keys())}
 
-ob_data = orderbooks_data['bitfinex']
+
+# For largo
+#i_count = 0
+#l_data = []
+#for i_data in ob_data.values():
+#    i_count += 1
+#    if i_data is None:
+#        print(i_data)
+#        l_data.append(i_count)

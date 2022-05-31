@@ -16,11 +16,16 @@ import json
 f = open("orderbooks_05jul21.json")
 
 # Convert JSON into Dictionary
-ob_data = json.load(f)
+orderbooks_data = json.load(f)
+ob_data = orderbooks_data["bitfinex"]
 
-# Extrac list from json
-bitfinix_list = list(ob_data["bitfinex"].keys())
-kraken_list = list(ob_data["kraken"].keys())
+#Drop None Keys
+ob_data = {i_key: i_value for i_key, i_value in ob_data.items() if i_value is not None}
+
+#Convert to DataFrame and rearange columns
+ob_data = {i_ob: pd.DataFrame(ob_data[i_ob])[['bid_size','bid','ask','ask_size']]
+          if  ob_data[i_ob] is not None else None for i_ob in list(ob_data.keys())}
+
 
 if __name__ == "__main__":
-    print(kraken_list)
+    print(pd.DataFrame(ob_data))
